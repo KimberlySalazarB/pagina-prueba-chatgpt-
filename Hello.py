@@ -65,6 +65,13 @@ def run():
                 st.subheader("Comentarios antivacunas encontrados:")
                 for comentario in comentarios_antivacunas:
                     st.write(comentario)
+
+            if st.button("Mostrar dudas relacionadas"):
+                comentarios_dudas = identificar_dudas(data)
+                
+                st.subheader("Dudas encontradas:")
+                for comentario in comentarios_dudas:
+                    st.write(comentario)
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")
 
@@ -77,5 +84,16 @@ def identificar_antivacunas(data):
             comentarios_antivacunas.append(comentario)
 
     return comentarios_antivacunas
+
+def identificar_dudas(data):
+    comentarios_dudas = []
+
+    # Procesar los comentarios en la columna 'Clasificacion' (ajusta el nombre de la columna según tu CSV)
+    for index, row  in data.iterrows():
+        if row['Topic_c'] == 2:
+            comentarios_dudas.append(row['Comentarios'])
+
+    return comentarios_dudas
+
 if __name__ == "__main__":
     run()
