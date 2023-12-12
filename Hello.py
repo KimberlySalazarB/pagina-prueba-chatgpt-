@@ -46,6 +46,28 @@ def run():
     """
     )
 
+def main():
+    st.title('Ingreso de Datos')
 
+    # Área de texto para ingresar datos
+    user_input = st.text_area("Ingrese sus datos aquí:")
+
+    # Mostrar los datos ingresados
+    st.write("Datos ingresados:")
+    st.write(user_input)
+
+def identificar_antivacunas(datos):
+    # Esta función procesaría los datos ingresados para identificar comentarios antivacunas
+    # Aquí podrías utilizar tu clasificador o método específico para esta identificación
+    # Por ahora, es un ejemplo simple que encuentra palabras clave "anti-vacuna"
+
+    comentarios = datos.split('\n')  # Separar los datos por saltos de línea
+    comentarios_antivacunas = []
+
+    for comentario in comentarios:
+        if "anti-vacuna" in comentario.lower():
+            comentarios_antivacunas.append(comentario)
+
+    return comentarios_antivacunas
 if __name__ == "__main__":
     run()
