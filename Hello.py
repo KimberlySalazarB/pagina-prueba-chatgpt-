@@ -45,10 +45,15 @@ def run():
         3: Comentarios que no se relacionan con la vacuna contra el VPH.  
     """
     )
-    uploaded_file = st.file_uploader("Cargar archivo CSV", type=["csv"])
+    uploaded_file = st.file_uploader("Cargar archivo", type=["csv", "xlsx"])
 
     if uploaded_file is not None:
-        data = pd.read_csv(uploaded_file)
+        file_ext = uploaded_file.name.split(".")[-1]
+        if file_ext == "csv":
+            data = pd.read_csv(uploaded_file)
+        elif file_ext == "xlsx":
+            data = pd.read_excel(uploaded_file)
+
         st.write("Datos cargados:")
         st.write(data)
 
