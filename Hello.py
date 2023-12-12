@@ -45,30 +45,28 @@ def run():
         3: Comentarios que no se relacionan con la vacuna contra el VPH.  
     """
     )
-    def main():
-        st.title('Ingreso de Datos')
+        uploaded_file = st.file_uploader("Cargar archivo CSV", type=["csv"])
 
-        # Área de texto para ingresar datos
-        user_input = st.text_area("Ingrese sus datos aquí:")
+    if uploaded_file is not None:
+        data = pd.read_csv(uploaded_file)
+        st.write("Datos cargados:")
+        st.write(data)
 
-        # Mostrar los datos ingresados
-        st.write("Datos ingresados:")
-        st.write(user_input)
+        if st.button("Mostrar comentarios antivacunas"):
+            comentarios_antivacunas = identificar_antivacunas(data)
+            
+            st.subheader("Comentarios antivacunas encontrados:")
+            for comentario in comentarios_antivacunas:
+                st.write(comentario)
 
+def identificar_antivacunas(data):
+    comentarios_antivacunas = []
 
+    # Procesar los comentarios en la columna 'Comentarios' (ajusta el nombre de la columna según tu CSV)
+    for comentario in data['Comentarios']:
+        if "anti-vacuna" in str(comentario).lower():
+            comentarios_antivacunas.append(comentario)
 
-    def identificar_antivacunas(datos):
-    # Esta función procesaría los datos ingresados para identificar comentarios antivacunas
-    # Aquí podrías utilizar tu clasificador o método específico para esta identificación
-    # Por ahora, es un ejemplo simple que encuentra palabras clave "anti-vacuna"
-
-        comentarios = datos.split('\n')  # Separar los datos por saltos de línea
-        comentarios_antivacunas = []
-
-        for comentario in comentarios:
-            if "anti-vacuna" in comentario.lower():
-                comentarios_antivacunas.append(comentario)
-
-        return comentarios_antivacunas
+    return comentarios_antivacunas
 if __name__ == "__main__":
     run()
