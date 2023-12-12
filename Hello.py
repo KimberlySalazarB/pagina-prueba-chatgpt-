@@ -15,6 +15,7 @@
 import streamlit as st
 import pandas as pd
 pip install openpyxl
+pip install openpyxl
 from streamlit.logger import get_logger
 
 LOGGER = get_logger(__name__)
