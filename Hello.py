@@ -46,6 +46,7 @@ def run():
         3: Comentarios que no se relacionan con la vacuna contra el VPH.  
     """
     )
+    column_name = st.text_input("Ingrese el nombre de la columna que contiene los comentarios:")
     uploaded_file = st.file_uploader("Cargar archivo", type=["csv", "xlsx"])
 
     if uploaded_file is not None:
