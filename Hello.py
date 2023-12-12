@@ -48,21 +48,24 @@ def run():
     uploaded_file = st.file_uploader("Cargar archivo", type=["csv", "xlsx"])
 
     if uploaded_file is not None:
-        file_ext = uploaded_file.name.split(".")[-1]
-        if file_ext == "csv":
-            data = pd.read_csv(uploaded_file)
-        elif file_ext == "xlsx":
-            data = pd.read_excel(uploaded_file)
-
-        st.write("Datos cargados:")
-        st.write(data)
-
-        if st.button("Mostrar comentarios antivacunas"):
-            comentarios_antivacunas = identificar_antivacunas(data)
+        try:
+            file_ext = uploaded_file.name.split(".")[-1]
+            if file_ext == "csv":
+                data = pd.read_csv(uploaded_file)
+            elif file_ext == "xlsx":
+                data = pd.read_excel(uploaded_file)
             
-            st.subheader("Comentarios antivacunas encontrados:")
-            for comentario in comentarios_antivacunas:
-                st.write(comentario)
+            st.write("Datos cargados:")
+            st.write(data)
+
+            if st.button("Mostrar comentarios antivacunas"):
+                comentarios_antivacunas = identificar_antivacunas(data)
+                
+                st.subheader("Comentarios antivacunas encontrados:")
+                for comentario in comentarios_antivacunas:
+                    st.write(comentario)
+        except Exception as e:
+            st.error(f"Error al cargar el archivo: {e}")
 
 def identificar_antivacunas(data):
     comentarios_antivacunas = []
