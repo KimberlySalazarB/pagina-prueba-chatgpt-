@@ -45,7 +45,7 @@ def run():
         3: Comentarios que no se relacionan con la vacuna contra el VPH.  
     """
     )
-        uploaded_file = st.file_uploader("Cargar archivo CSV", type=["csv"])
+    uploaded_file = st.file_uploader("Cargar archivo CSV", type=["csv"])
 
     if uploaded_file is not None:
         data = pd.read_csv(uploaded_file)
