@@ -48,9 +48,9 @@ def run():
     )
     column_name = st.text_input("Ingrese el nombre de la columna que contiene los comentarios:")
      # Botón para ocultar/mostrar la API de OpenAI
-    if st.checkbox("Mostrar/ocultar API de OpenAI"):
-                api_key = st.text_input("API Key de OpenAI", type="password")
-                st.write("API Key:", api_key)        
+    api_key = st.text_input("API Key de OpenAI", type="password")
+                st.write("API Key:", api_key)
+                        
     uploaded_file = st.file_uploader("Cargar archivo", type=["csv", "xlsx"])
 
     if uploaded_file is not None:
