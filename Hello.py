@@ -48,14 +48,12 @@ def run():
     )
     column_name = st.text_input("Ingrese el nombre de la columna que contiene los comentarios:")
      # Botón para ocultar/mostrar la API de OpenAI
-    if st.checkbox("Mostrar/Ocultar API de OpenAI"):
-        api_key = st.text_input("API Key de OpenAI", type="password")
-    else:
-        api_key = None
+    api_key = st.text_input("API Key de OpenAI", type="password")
+   
     
     # Botón para guardar la API en un documento de GitHub
     if api_key:
-        if st.button("Guardar API Key en GitHub"):
+        if st.button("Guardar"):
             guardar_api_en_github(api_key)
                         
     uploaded_file = st.file_uploader("Cargar archivo", type=["csv", "xlsx"])
