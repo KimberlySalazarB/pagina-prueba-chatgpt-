@@ -20,11 +20,14 @@ LOGGER = get_logger(__name__)
 
 
 def run():
-    
+    st.set_page_config(
+        page_title="Hello",
+        page_icon="👋",
+    )
 
     st.write("# Bienvenidos a la página! ❤️")
 
-    st.sidebar.success("Select a demo above.")
+    
 
     st.markdown(
         """
