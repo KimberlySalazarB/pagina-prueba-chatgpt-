@@ -73,6 +73,10 @@ def run():
                 st.subheader("Dudas encontradas:")
                 for comentario in comentarios_dudas:
                     st.write(comentario)
+             # Botón para ocultar/mostrar la API de OpenAI
+            if st.checkbox("Mostrar/ocultar API de OpenAI"):
+                api_key = st.text_input("API Key de OpenAI", type="password")
+                st.write("API Key:", api_key)
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")
 
