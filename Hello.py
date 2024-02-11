@@ -70,7 +70,7 @@ def run():
             st.write(data)
 
             if st.button("Mostrar comentarios antivacunas"):
-                comentarios_antivacunas = identificar_antivacunas(data)
+                comentarios_antivacunas = identificar_antivacunas(data, column_name)
                 
                 st.subheader("Comentarios antivacunas encontrados:")
                 for comentario in comentarios_antivacunas:
@@ -86,13 +86,13 @@ def run():
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")
 
-def identificar_antivacunas(data):
+def identificar_antivacunas(data, column_name):
     comentarios_antivacunas = []
 
     # Procesar los comentarios en la columna 'Comentarios' (ajusta el nombre de la columna según tu CSV)
-    for comentario in data['Comment']:
-        if "anti-vacuna" in str(comentario).lower():
-            comentarios_antivacunas.append(comentario)
+    for index, row  in data.iterrows():
+        if row['Topic_c'] == 0:
+            comentarios_antivacunas.append(row[column_name])
 
     return comentarios_antivacunas
 
