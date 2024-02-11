@@ -77,7 +77,7 @@ def run():
                     st.write(comentario)
 
             if st.button("Mostrar dudas relacionadas"):
-                comentarios_dudas = identificar_dudas(data)
+                comentarios_dudas = identificar_dudas(data, column_name)
                 
                 st.subheader("Dudas encontradas:")
                 for comentario in comentarios_dudas:
@@ -90,19 +90,19 @@ def identificar_antivacunas(data):
     comentarios_antivacunas = []
 
     # Procesar los comentarios en la columna 'Comentarios' (ajusta el nombre de la columna según tu CSV)
-    for comentario in data['Comentarios']:
+    for comentario in data['Comment']:
         if "anti-vacuna" in str(comentario).lower():
             comentarios_antivacunas.append(comentario)
 
     return comentarios_antivacunas
 
-def identificar_dudas(data):
+def identificar_dudas(data, column_name):
     comentarios_dudas = []
 
     # Procesar los comentarios en la columna 'Clasificacion' (ajusta el nombre de la columna según tu CSV)
     for index, row  in data.iterrows():
         if row['Topic_c'] == 2:
-            comentarios_dudas.append(row['Comentarios'])
+            comentarios_dudas.append(row[column_name])
 
     return comentarios_dudas
 
