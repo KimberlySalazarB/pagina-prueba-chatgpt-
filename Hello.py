@@ -180,9 +180,9 @@ def run():
             with open('api_key.txt', 'w') as file:
                 file.write(api_key)
                         
-   uploaded_file = st.file_uploader("Cargar archivo", type=["csv", "xlsx"])
+    uploaded_file = st.file_uploader("Cargar archivo", type=["csv", "xlsx"])
 
-   if uploaded_file is not None:
+    if uploaded_file is not None:
         try:
             file_ext = uploaded_file.name.split(".")[-1]
             if file_ext == "csv":
