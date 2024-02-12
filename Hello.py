@@ -169,10 +169,10 @@ def run():
             file_ext = uploaded_file.name.split(".")[-1]
             if file_ext == "csv":
                 data = pd.read_csv(uploaded_file)
-                return data
             elif file_ext == "xlsx":
                 data = pd.read_excel(uploaded_file)
-                return data
+
+    
     column_name = st.text_input("Ingrese el nombre de la columna que contiene los comentarios:")
     
      # Botón para ocultar/mostrar la API de OpenAI
