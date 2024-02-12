@@ -218,8 +218,8 @@ def run():
                 for comentario in comentarios_dudas:
                     st.write(comentario)
             
-        except Exception as e:
-            st.error(f"Error al cargar el archivo: {e}")
+    except Exception as e:
+        st.error(f"Error al cargar el archivo: {e}")
 
 def identificar_antivacunas(data, column_name):
     comentarios_antivacunas = []
