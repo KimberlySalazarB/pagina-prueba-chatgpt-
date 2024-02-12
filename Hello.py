@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
 import streamlit as st
 import pandas as pd
 from streamlit.logger import get_logger
@@ -24,6 +25,8 @@ def guardar_api_en_github(api_key):
         file.write(api_key)
     st.write("API key guardada con éxito en 'api_key.txt'")
 
+<<<<<<< HEAD
+=======
 def clasificar_comentario_gpt4(column_name, data):
     
 
@@ -137,6 +140,7 @@ def clasificar_comentario_gpt4(column_name, data):
 
 
     print("Procesamiento completado y resultados guardados en", output_file)
+>>>>>>> 9410fc3c2861d141655a3c5a5df083c8fb89ac84
 def run():
     st.set_page_config(
         page_title="Hello",
@@ -164,8 +168,6 @@ def run():
         3: Comentarios que no se relacionan con la vacuna contra el VPH.  
     """
     )
-    
-
     
     column_name = st.text_input("Ingrese el nombre de la columna que contiene los comentarios:")
 
@@ -198,9 +200,100 @@ def run():
                     st.error("API Key no definida. Por favor, ingrese la API Key y haga clic en 'Guardar'.")
                 else:
             # Llamar a la función clasificar_comentario_gpt4 y pasar el DataFrame
-                    clasificar_comentario_gpt4(column_name, data)
+                    with open('api_key.txt', 'r') as file:
+                        api_key = file.read().strip()
+                    openai.api_key = api_key
 
-            
+            # Seleccionar modelo  "gpt-4"
+                    model = "gpt-4"
+                    # Definir el texto del prompt para la clasificación
+                    prompt = """
+                        Tendrás un rol de clasificador de comentarios de una publicación relacionada con la vacuna contra el VPH.
+                        No tienes permitido responder otra cosa que no sean números. Las clasificaciones son:
+
+                        Si el comentario tiene una postura contraria a la vacuna contra el VPH (antivacuna).La respuesta es: 0
+                        Si el comentario tiene una postura a favor de la vacuna contra el VPH (provacuna).La respuesta es: 1
+                        Si el comentario refleja una duda o dudas relacionadas con la vacuna contra el VPH.La respuesta es: 2
+                        Si el comentario habla de cualquier otra cosa. La respuesta es: 3
+
+                        Trata de interpretar las intenciones de las personas, ya que se trata de comentarios de Facebook.
+                        Si no puedes clasificar, tu respuesta debe ser "3".
+
+                        Ahora, clasifica el siguiente comentario, teniendo en cuenta que tu respuesta es solo un número:
+                    """
+                    batch_size = 20  # Tamaño del lote de comentarios a procesar antes de guardar
+                    output_file = "data_gpt_4(2).xlsx"  # Nombre del archivo de salida
+                    checkpoint_file = "checkpoint.txt"  # Nombre del archivo de checkpoint
+
+                    # Variable para almacenar la posición actual en el bucle
+                    current_index = 0
+                    completed = False
+                    while not completed:
+                        # Verificar si existe un archivo de checkpoint
+                        try:
+                            with open(checkpoint_file, 'r') as f:
+                                current_index = int(f.read())
+                            print("Se encontró un archivo de checkpoint. Continuando desde la posición:", current_index)
+                        except FileNotFoundError:
+                            print("No se encontró un archivo de checkpoint. Comenzando desde el principio.")
+
+                        # Crear una columna vacía para almacenar las respuestas si aún no existe
+                        if 'Clasificación_gpt_4' not in data.columns:
+                            data['Clasificación_gpt_4'] = ''
+
+                        # Iterar sobre cada comentario en el DataFrame
+                        for index, row in data.iterrows():
+                        # Verificar si se debe retomar desde el punto de reinicio guardado
+                            if index < current_index:
+                                continue
+
+                            comment = row[column_name]
+                            try:
+                            # Crear la solicitud de completado de chat
+                                completion = openai.ChatCompletion.create(
+                                    model="gpt-4",
+                                    messages=[
+                                    {"role": "system", "content": prompt},
+                                    {"role": "user", "content": comment}
+                                    ],
+                                    temperature=0,
+                                    max_tokens=1
+                                )
+                                
+                                response = completion.choices[0].message.content.strip()
+
+                                # Verificar si la respuesta es un número
+                                if response.isdigit():
+                                    # Convertir la respuesta a entero
+                                    response = int(response)
+                                else:
+                                    # Manejar el caso en el que la respuesta no es un número
+                                    # Puedes asignar un valor predeterminado o tomar cualquier otra acción apropiada
+                                    response = None  # o cualquier otro valor predeterminado que prefieras
+
+                                data.at[index, 'Clasificación_gpt_4'] = response
+                                # Guardar el DataFrame en un archivo después de procesar un lote de comentarios
+                                if (index + 1) % batch_size == 0 or (index + 1) == len(data):
+                                    data[:index + 1].to_excel(output_file, index=False)
+                                    print("Guardando...")
+
+                                # Guardar la posición actual como punto de reinicio
+                                with open(checkpoint_file, 'w') as file:
+                                    file.write(str(index + 1))
+
+                            except openai.OpenAIError as e:
+                            # Manejar el error del servidor de OpenAI
+                                print("Error del servidor de OpenAI:", e)
+                                print("Reanudando el proceso desde la iteración", index)
+                                completed = False
+                                #print("Esperando 6 segundos antes de continuar...")
+                                #time.sleep(6)
+                                break
+                        else:
+                        # El bucle for se completó sin errores, terminar el proceso
+                            completed = True     
+                            with open(checkpoint_file, 'w') as file:
+                                file.write(str(0))
                 if st.button("Mostrar comentarios antivacunas"):
                     comentarios_antivacunas = identificar_antivacunas(data, column_name)
                 
@@ -218,7 +311,10 @@ def run():
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")
 
+    
+
 def identificar_antivacunas(data, column_name):
+    data = pd.read_excel("data_gpt_4(2).xlsx")
     comentarios_antivacunas = []
 
     # Procesar los comentarios en la columna 'Comentarios' (ajusta el nombre de la columna según tu CSV)
@@ -240,3 +336,4 @@ def identificar_dudas(data, column_name):
 
 if __name__ == "__main__":
     run()
+
