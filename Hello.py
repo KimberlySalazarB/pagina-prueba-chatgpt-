@@ -184,17 +184,26 @@ def run():
                         
     uploaded_file = st.file_uploader("Cargar archivo", type=["csv", "xlsx"])
 
-    if uploaded_file is not None:
-        try:
-            file_ext = uploaded_file.name.split(".")[-1]
-            if file_ext == "csv":
-                data = pd.read_csv(uploaded_file)
-            elif file_ext == "xlsx":
-                data = pd.read_excel(uploaded_file)
+    #if uploaded_file is not None:
+        #try:
+            #file_ext = uploaded_file.name.split(".")[-1]
+            #if file_ext == "csv":
+                #data = pd.read_csv(uploaded_file)
+            #elif file_ext == "xlsx":
+                #data = pd.read_excel(uploaded_file)
             
-            st.write("Datos cargados:")
-            st.write(data)
+            #st.write("Datos cargados:")
+            #st.write(data)
+         # Botón para clasificar comentarios y mostrar resultados
+    if st.button("Clasificar Comentarios"):
+        # Asegurarse de que la variable 'api_key' esté definida antes de llamar a la función
+        if 'api_key' not in locals():
+            st.error("API Key no definida. Por favor, ingrese la API Key y haga clic en 'Guardar'.")
+        else:
+            # Llamar a la función clasificar_comentario_gpt4 y pasar el DataFrame
+            clasificar_comentario_gpt4(column_name, data)
 
+            
             if st.button("Mostrar comentarios antivacunas"):
                 comentarios_antivacunas = identificar_antivacunas(data, column_name)
                 
@@ -217,7 +226,7 @@ def identificar_antivacunas(data, column_name):
 
     # Procesar los comentarios en la columna 'Comentarios' (ajusta el nombre de la columna según tu CSV)
     for index, row  in data.iterrows():
-        if row['Topic_c'] == 0:
+        if row['Clasificación_gpt_4'] == 0:
             comentarios_antivacunas.append(row[column_name])
 
     return comentarios_antivacunas
@@ -227,7 +236,7 @@ def identificar_dudas(data, column_name):
 
     # Procesar los comentarios en la columna 'Clasificacion' (ajusta el nombre de la columna según tu CSV)
     for index, row  in data.iterrows():
-        if row['Topic_c'] == 2:
+        if row['Clasificación_gpt_4'] == 2:
             comentarios_dudas.append(row[column_name])
 
     return comentarios_dudas
