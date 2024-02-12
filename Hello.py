@@ -162,6 +162,17 @@ def run():
         3: Comentarios que no se relacionan con la vacuna contra el VPH.  
     """
     )
+    uploaded_file = st.file_uploader("Cargar archivo", type=["csv", "xlsx"])
+
+    if uploaded_file is not None:
+        try:
+            file_ext = uploaded_file.name.split(".")[-1]
+            if file_ext == "csv":
+                data = pd.read_csv(uploaded_file)
+                return data
+            elif file_ext == "xlsx":
+                data = pd.read_excel(uploaded_file)
+                return data
     column_name = st.text_input("Ingrese el nombre de la columna que contiene los comentarios:")
     return column_name
      # Botón para ocultar/mostrar la API de OpenAI
@@ -175,17 +186,7 @@ def run():
             with open('api_key.txt', 'w') as file:
                 file.write(api_key)
                         
-    uploaded_file = st.file_uploader("Cargar archivo", type=["csv", "xlsx"])
-
-    if uploaded_file is not None:
-        try:
-            file_ext = uploaded_file.name.split(".")[-1]
-            if file_ext == "csv":
-                data = pd.read_csv(uploaded_file)
-                return data
-            elif file_ext == "xlsx":
-                data = pd.read_excel(uploaded_file)
-                return data
+   
             
             st.write("Datos cargados:")
             st.write(data)
