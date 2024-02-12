@@ -18,7 +18,7 @@ from streamlit.logger import get_logger
 
 LOGGER = get_logger(__name__)
 
-def clasificar_comentario_gpt4(comment):
+def clasificar_comentario_gpt4(column_name, data):
     import openai
     import pandas as pd
     from sklearn.model_selection import train_test_split
@@ -35,7 +35,7 @@ def clasificar_comentario_gpt4(comment):
     model = "gpt-4"
 
 # Cargar el archivo de Excel en un DataFrame de pandas
-    data = pd.read_excel("data.xlsx")
+    #data = pd.read_excel("data.xlsx")
 
 # Definir el texto del prompt para la clasificación
     prompt = """
@@ -55,7 +55,7 @@ def clasificar_comentario_gpt4(comment):
 #import time
 # Parámetros de configuración
     batch_size = 20  # Tamaño del lote de comentarios a procesar antes de guardar
-    output_file = "data_gpt_4(2).xlsx"  # Nombre del archivo de salida
+    output_file = "data_gpt_4.xlsx"  # Nombre del archivo de salida
     checkpoint_file = "checkpoint.txt"  # Nombre del archivo de checkpoint
 
 # Variable para almacenar la posición actual en el bucle
@@ -81,7 +81,7 @@ def clasificar_comentario_gpt4(comment):
             if index < current_index:
                 continue
 
-            comment = row['Comment']
+            comment = row[column_name]
 
             try:
             # Crear la solicitud de completado de chat
@@ -163,6 +163,7 @@ def run():
     """
     )
     column_name = st.text_input("Ingrese el nombre de la columna que contiene los comentarios:")
+    return column_name
      # Botón para ocultar/mostrar la API de OpenAI
     api_key = st.text_input("API Key de OpenAI", type="password")
    
@@ -181,8 +182,10 @@ def run():
             file_ext = uploaded_file.name.split(".")[-1]
             if file_ext == "csv":
                 data = pd.read_csv(uploaded_file)
+                return data
             elif file_ext == "xlsx":
                 data = pd.read_excel(uploaded_file)
+                return data
             
             st.write("Datos cargados:")
             st.write(data)
