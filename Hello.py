@@ -21,7 +21,7 @@ LOGGER = get_logger(__name__)
 def guardar_api_en_github(api_key):
     with open('api_key.txt', 'w') as file:
         file.write(api_key)
-    print("API key guardada con éxito en 'api_key.txt'")
+    st.write("API key guardada con éxito en 'api_key.txt'")
 
 def clasificar_comentario_gpt4(column_name, data):
     import openai
