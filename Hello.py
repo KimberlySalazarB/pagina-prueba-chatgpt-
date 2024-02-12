@@ -27,8 +27,6 @@ def clasificar_comentario_gpt4(column_name, data):
     import openai
     import pandas as pd
     from sklearn.model_selection import train_test_split
-    from sklearn.linear_model import LogisticRegression
-    from sklearn.metrics import accuracy_score, recall_score, f1_score, confusion_matrix, classification_report
 
 # Establecer la clave de la API de OpenAI
     with open('api_key.txt', 'r') as file:
