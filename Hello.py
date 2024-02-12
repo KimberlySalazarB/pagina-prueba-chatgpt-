@@ -174,7 +174,7 @@ def run():
                 data = pd.read_excel(uploaded_file)
                 return data
     column_name = st.text_input("Ingrese el nombre de la columna que contiene los comentarios:")
-    return column_name
+    
      # Botón para ocultar/mostrar la API de OpenAI
     api_key = st.text_input("API Key de OpenAI", type="password")
    
