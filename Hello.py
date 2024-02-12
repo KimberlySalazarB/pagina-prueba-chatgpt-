@@ -15,6 +15,8 @@
 import streamlit as st
 import pandas as pd
 from streamlit.logger import get_logger
+import openai
+import pandas as pd
 
 LOGGER = get_logger(__name__)
 
@@ -24,9 +26,7 @@ def guardar_api_en_github(api_key):
     st.write("API key guardada con éxito en 'api_key.txt'")
 
 def clasificar_comentario_gpt4(column_name, data):
-    import openai
-    import pandas as pd
-    from sklearn.model_selection import train_test_split
+    
 
 # Establecer la clave de la API de OpenAI
     with open('api_key.txt', 'r') as file:
