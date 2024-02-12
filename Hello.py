@@ -18,6 +18,11 @@ from streamlit.logger import get_logger
 
 LOGGER = get_logger(__name__)
 
+def guardar_api_en_github(api_key):
+    with open('api_key.txt', 'w') as file:
+        file.write(api_key)
+    print("API key guardada con éxito en 'api_key.txt'")
+
 def clasificar_comentario_gpt4(column_name, data):
     import openai
     import pandas as pd
@@ -174,11 +179,8 @@ def run():
    
     
     # Botón para guardar la API en un documento de GitHub
-    if api_key:
-        if st.button("Guardar"):
-            guardar_api_en_github(api_key)
-            with open('api_key.txt', 'w') as file:
-                file.write(api_key)
+    if api_key and st.button("Guardar"):
+        guardar_api_en_github(api_key)
                         
     uploaded_file = st.file_uploader("Cargar archivo", type=["csv", "xlsx"])
 
