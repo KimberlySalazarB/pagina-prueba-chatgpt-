@@ -78,17 +78,21 @@ def run():
             st.write("Datos cargados:")
             st.write(data)
          # Botón para clasificar comentarios y mostrar resultados
-            if st.button("Clasificar Comentarios"):
-        # Asegurarse de que la variable 'api_key' esté definida antes de llamar a la función
+            button1 = st.button("Clasificar Comentarios")
+            if st.session_state.get("button") != True:
+                st.session_state["button"] = button1
+            if st.session_state["button"] == True:
+                st.write("button1 is true")
+                # Asegurarse de que la variable 'api_key' esté definida antes de llamar a la función
                 if 'api_key' not in locals():
                     st.error("API Key no definida. Por favor, ingrese la API Key y haga clic en 'Guardar'.")
                 else:
-            # Llamar a la función clasificar_comentario_gpt4 y pasar el DataFrame
+                # Llamar a la función clasificar_comentario_gpt4 y pasar el DataFrame
                     with open('api_key.txt', 'r') as file:
                         api_key = file.read().strip()
                     openai.api_key = api_key
 
-            # Seleccionar modelo  "gpt-4"
+                    # Seleccionar modelo  "gpt-4"
                     model = "gpt-4"
                     # Definir el texto del prompt para la clasificación
                     prompt = """
@@ -178,16 +182,19 @@ def run():
                             completed = True     
                             with open(checkpoint_file, 'w') as file:
                                 file.write(str(0))
+                                
+                st.write(data)    
+                                    
                 if st.button("Mostrar comentarios antivacunas"):
                     comentarios_antivacunas = identificar_antivacunas(data, column_name)
-                
+                    
                     st.subheader("Comentarios antivacunas encontrados:")
                     for comentario in comentarios_antivacunas:
                         st.write(comentario)
 
                 if st.button("Mostrar dudas relacionadas"):
                     comentarios_dudas = identificar_dudas(data, column_name)
-                
+                    
                     st.subheader("Dudas encontradas:")
                     for comentario in comentarios_dudas:
                         st.write(comentario)
@@ -198,7 +205,7 @@ def run():
     
 
 def identificar_antivacunas(data, column_name):
-    data = pd.read_excel("data_gpt_4(2).xlsx")
+    #data = pd.read_excel("data_gpt_4(2).xlsx")
     comentarios_antivacunas = []
 
     # Procesar los comentarios en la columna 'Comentarios' (ajusta el nombre de la columna según tu CSV)
