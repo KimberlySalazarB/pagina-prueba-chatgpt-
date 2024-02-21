@@ -65,7 +65,7 @@ def run():
     if api_key and st.button("Guardar"):
         guardar_api_en_github(api_key)
                         
-    uploaded_file = st.file_uploader("Cargar archivo", type=["csv", "xlsx"])
+    uploaded_file = st.file_uploader("Cargar archivo de los comentarios", type=["csv", "xlsx"])
 
     if uploaded_file is not None:
         try:
