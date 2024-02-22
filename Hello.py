@@ -77,16 +77,22 @@ def run():
     # Botón para guardar la API en un documento de GitHub
     if api_key and st.button("Guardar"):
         guardar_api_en_github(api_key)
+        
+    open_file = False
                         
     uploaded_file = st.file_uploader("Cargar archivo", type=["csv", "xlsx"])
-
+    if uploaded_file is not None:
+        file_name = uploaded_file
+    else:
+        file_name = "DataSample.xlsx"
+    
     if uploaded_file is not None:
         try:
-            file_ext = uploaded_file.name.split(".")[-1]
+            file_ext = file_name.name.split(".")[-1]
             if file_ext == "csv":
-                data = pd.read_csv(uploaded_file)
+                data = pd.read_csv(file_name)
             elif file_ext == "xlsx":
-                data = pd.read_excel(uploaded_file)
+                data = pd.read_excel(file_name)
             
             st.write("Datos cargados:")
             st.write(data)
@@ -200,9 +206,13 @@ def run():
                         completed = True     
                         with open(checkpoint_file, 'w') as file:
                             file.write(str(0))
+                            open_file = True
                                 
                         st.write(data)    
-    data = pd.read_excel("data_gpt_4(2).xlsx")                 
+    
+    if open_file == True:
+        data = pd.read_excel("data_gpt_4(2).xlsx")
+                         
     if st.button("Mostrar comentarios antivacunas"):
         comentarios_antivacunas = identificar_antivacunas(data , column_name)
                     
