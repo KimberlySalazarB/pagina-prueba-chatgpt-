@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
+# Definir una función para cargar los datos
+@st.cache
 import streamlit as st
 import pandas as pd
 from streamlit.logger import get_logger
