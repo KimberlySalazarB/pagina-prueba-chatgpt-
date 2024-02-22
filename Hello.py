@@ -210,7 +210,13 @@ def run():
                             file.write(str(0))
                                 
                         st.write(data)    
-    data =cargar_archivo()              
+                 
+    try:
+        data = cargar_archivo()
+        st.write("Datos cargados:")
+        st.write(data)
+    except FileNotFoundError:
+        st.error("No se pudo encontrar el archivo data_gpt_4(2).xlsx. Asegúrate de que el archivo esté en el directorio correcto o especifica la ruta completa.")             
     if st.button("Mostrar comentarios antivacunas"):
         comentarios_antivacunas = identificar_antivacunas(data , column_name)
                     
