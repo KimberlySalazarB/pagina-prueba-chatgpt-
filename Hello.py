@@ -38,8 +38,7 @@ def comprobar_nombre_columna(column_name, data):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-# Definir una función para cargar los datos
-@st.cache
+
 def run():
     st.set_page_config(
         page_title="Hello",
@@ -96,6 +95,8 @@ def run():
             st.error(f"Error al cargar el archivo: {e}")
 
          # Botón para clasificar comentarios y mostrar resultados
+    # Definir una función para cargar los datos
+    @st.cache
     button1 = st.button("Clasificar Comentarios")
     if st.session_state.get("button") != True:
         st.session_state["button"] = button1
