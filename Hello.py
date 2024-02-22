@@ -24,7 +24,7 @@ def guardar_api_en_github(api_key):
     with open('api_key.txt', 'w') as file:
         file.write(api_key)
     st.write("API key guardada con éxito en 'api_key.txt'")
-    
+
 def comprobar_nombre_columna(column_name, data):
     try:        
         columns = data.columns
@@ -37,6 +37,7 @@ def comprobar_nombre_columna(column_name, data):
     
     except Exception as e:
         print(f"An error occurred: {e}")
+
 
 def run():
     st.set_page_config(
@@ -100,6 +101,7 @@ def run():
             st.error(f"Error al cargar el archivo: {e}")
 
          # Botón para clasificar comentarios y mostrar resultados
+   
     button1 = st.button("Clasificar Comentarios")
     if st.session_state.get("button") != True:
         st.session_state["button"] = button1
