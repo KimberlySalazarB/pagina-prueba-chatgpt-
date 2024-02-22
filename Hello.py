@@ -95,8 +95,7 @@ def run():
             st.error(f"Error al cargar el archivo: {e}")
 
          # Botón para clasificar comentarios y mostrar resultados
-    # Definir una función para cargar los datos
-    @st.cache
+   
     button1 = st.button("Clasificar Comentarios")
     if st.session_state.get("button") != True:
         st.session_state["button"] = button1
@@ -131,6 +130,8 @@ def run():
                         Ahora, clasifica el siguiente comentario, teniendo en cuenta que tu respuesta es solo un número:
                 """
                 batch_size = 20  # Tamaño del lote de comentarios a procesar antes de guardar
+                 # Definir una función para cargar los datos
+                @st.cache
                 output_file = "data_gpt_4(2).xlsx"  # Nombre del archivo de salida
                 checkpoint_file = "checkpoint.txt"  # Nombre del archivo de checkpoint
 
