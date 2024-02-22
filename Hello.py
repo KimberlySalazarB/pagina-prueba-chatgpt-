@@ -25,12 +25,6 @@ def guardar_api_en_github(api_key):
         file.write(api_key)
     st.write("API key guardada con éxito en 'api_key.txt'")
 
-@st.cache
-def cargar_archivo():
-    # Aquí cargas el archivo desde la ubicación donde se haya guardado
-    data = pd.read_excel("data_gpt_4(2).xlsx")
-    return data
-    
 def comprobar_nombre_columna(column_name, data):
     try:        
         columns = data.columns
@@ -211,12 +205,7 @@ def run():
                                 
                         st.write(data)    
                  
-    try:
-        data = cargar_archivo()
-        st.write("Datos cargados:")
-        st.write(data)
-    except FileNotFoundError:
-        st.error("No se pudo encontrar el archivo data_gpt_4(2).xlsx. Asegúrate de que el archivo esté en el directorio correcto o especifica la ruta completa.")             
+    data = pd.read_excel("data_gpt_4(2).xlsx")             
     if st.button("Mostrar comentarios antivacunas"):
         comentarios_antivacunas = identificar_antivacunas(data , column_name)
                     
