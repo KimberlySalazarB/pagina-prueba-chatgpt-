@@ -12,8 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Definir una función para cargar los datos
-@st.cache
+
 import streamlit as st
 import pandas as pd
 from streamlit.logger import get_logger
@@ -39,6 +38,8 @@ def comprobar_nombre_columna(column_name, data):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+# Definir una función para cargar los datos
+@st.cache
 def run():
     st.set_page_config(
         page_title="Hello",
