@@ -17,6 +17,7 @@ import streamlit as st
 import pandas as pd
 from streamlit.logger import get_logger
 import openai
+import pickle
 
 LOGGER = get_logger(__name__)
 
@@ -67,6 +68,12 @@ def run():
     """
     )
     
+    with open('modelo_clasificacion_2.pkl', 'rb') as f:
+    # Load the Python object from the file
+        pickle_file = pickle.load(f)
+    if pickle_file is not None:
+        st.write("Archivo Pickle leido")
+    
     column_name = st.text_input("Ingrese el nombre de la columna que contiene los comentarios:")
 
     
@@ -76,8 +83,8 @@ def run():
    
     
     # Botón para guardar la API en un documento de GitHub
-    if api_key and st.button("Guardar"):
-        guardar_api_en_github(api_key)
+    #if api_key and st.button("Guardar"):
+    #    guardar_api_en_github(api_key)
         
     open_file = False
                         
@@ -109,12 +116,12 @@ def run():
             st.write("button1 is true")
                 # Asegurarse de que la variable 'api_key' esté definida antes de llamar a la función
             comprobar_nombre_columna(column_name, data)
-            if api_key not in locals():
+            if not api_key:
                 st.error("API Key no definida. Por favor, ingrese la API Key y haga clic en 'Guardar'.")
             else:
                 # Llamar a la función clasificar_comentario_gpt4 y pasar el DataFrame
-                with open('api_key.txt', 'r') as file:
-                    api_key = file.read().strip()
+                #with open('api_key.txt', 'r') as file:
+                    #api_key = file.read().strip()
                     #DEFINIR FUNCION PARA VALIDAR KEY (nro caracteres/contenido caracteres)
                 openai.api_key = api_key
 
