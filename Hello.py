@@ -205,7 +205,7 @@ def run():
                                 
                         st.write(data)    
                  
-    #data = pd.read_excel("data_gpt_4(2).xlsx")             
+    data = pd.read_excel("data_gpt_4(2).xlsx")             
     if st.button("Mostrar comentarios antivacunas"):
         comentarios_antivacunas = identificar_antivacunas(data , column_name)
                     
