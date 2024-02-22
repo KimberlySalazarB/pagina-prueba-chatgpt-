@@ -68,8 +68,8 @@ def run():
     """
     )
     
-    with open('modelo_clasificacion_2.pkl', 'rb') as f:
     # Load the Python object from the file
+    with open('\modelo_clasificacion_2.pkl', 'rb') as f:
         pickle_file = pickle.load(f)
     if pickle_file is not None:
         st.write("Archivo Pickle leido")
